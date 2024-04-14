@@ -1,0 +1,100 @@
+name: wildsense
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  loading_animation_widget: ^1.2.0+4
+  google_fonts: ^6.1.0
+  animated_text_kit: ^4.2.2
+  dotted_border: ^2.1.0
+  card_swiper: ^3.0.1
+  svg_flutter: ^0.0.1
+  flutter_otp_text_field: ^1.1.1
+  pin_code_fields: ^8.0.1
+  lottie: ^3.1.0
+  chewie: ^1.7.4
+  video_player: ^2.8.2
+  carousel_slider: ^4.2.1
+  dots_indicator: ^3.0.0
+  smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.2.2
+  cloud_firestore: ^4.15.8
+  get: ^4.6.6
+  camera: ^0.10.5+9
+  path_provider: ^2.1.2
+  path: ^1.8.3
+  visibility_detector: ^0.4.0+2
+  flutter_rating_bar: ^4.0.1
+  flutter_tflite: ^1.0.1
+  file_picker: ^8.0.0+1
+  firebase_auth: ^4.17.8
+  firebase_core: ^2.27.0
+  http: ^1.2.0
+  fluttertoast: ^8.2.4
+  connectivity: ^3.0.6
+  intl: ^0.19.0
+  firebase_storage: ^11.6.9
+  fl_chart: ^0.67.0
+  email_validator: ^2.1.17
+  firebase_database: ^10.4.9
+  flutter_dotenv: ^5.0.2
+  random_string: ^2.3.1
+  image_picker: ^0.8.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/videos/your_video.mp4
+    - assets/labels.txt
+    - assets/model_unquant.tflite
+    - assets/loading_animation.json
+    - assets/searching.json
+    - assets/countries.json
+    - assets/images/
+
+  fonts:
+    - family: SF Pro
+      fonts:
+        - asset: assets/fonts/SF-Pro-Text-Light.otf
+          weight: 300
+        - asset: assets/fonts/SF-Pro-Text-LightItalic.otf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/SF-Pro-Text-Regular.otf
+          weight: 400
+        - asset: assets/fonts/SF-Pro-Text-RegularItalic.otf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/SF-Pro-Text-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SF-Pro-Text-MediumItalic.otf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/SF-Pro-Text-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Text-SemiboldItalic.otf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/SF-Pro-Text-Bold.otf
+          weight: 700
+        - asset: assets/fonts/SF-Pro-Text-BoldItalic.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/SF-Pro-Text-Heavy.otf
+          weight: 800
+        - asset: assets/fonts/SF-Pro-Text-HeavyItalic.otf
+          weight: 800
+          style: italic
