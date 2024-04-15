@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wildsense/pages/customnavbar.dart';
 import 'package:wildsense/screens/dashboardpages/homescreen/homescreen.dart';
 import 'package:wildsense/screens/dashboardpages/profilescreen/profilescreen.dart';
 import 'package:wildsense/screens/registerscreen/phoneverification/phoneverification.dart';
@@ -32,9 +33,9 @@ Future<void> main() async {
     // Check if the user exists in the Firestore database
     bool userExists = await isUserExistsInDatabase(user.uid);
     if (userExists) {
-      initialScreen = HomeScreen(); // User is already logged in but not in the database
+      initialScreen = BottomNavWithAnimations(); // User is already logged in but not in the database
     } else {
-      initialScreen = HomeScreen(); // User is already logged in and exists in the database
+      initialScreen = BottomNavWithAnimations(); // User is already logged in and exists in the database
     }
   } else {
     // Check if it's the user's first time opening the app

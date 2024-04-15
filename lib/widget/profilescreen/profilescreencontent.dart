@@ -13,7 +13,7 @@ class ProfileScreenContent extends StatefulWidget {
 }
 
 class _ProfileScreenContentState extends State<ProfileScreenContent> {
-  late User? _user;
+  User? _user;
   String _userName = '';
 
   @override

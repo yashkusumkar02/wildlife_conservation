@@ -47,6 +47,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   random_string: ^2.3.1
   image_picker: ^0.8.9
+  rive: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,7 @@ flutter:
     - assets/searching.json
     - assets/countries.json
     - assets/images/
+    - assets/rive/riveicons.riv
 
   fonts:
     - family: SF Pro
