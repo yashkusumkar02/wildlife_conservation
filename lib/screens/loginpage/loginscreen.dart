@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:wildsense/screens/dashboardpages/homescreen/homescreen.dart';
 import 'package:wildsense/screens/registerscreen/registerscreen.dart';
 import '../../common/fade_animation.dart';
+import '../../pages/customnavbar.dart';
 import '../../widget/custome_widget.dart';
 import '../../widget/totastmessage/fluttertoast.dart';
 import '../dashboardpages/profilescreen/profilescreen.dart';
@@ -82,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => BottomNavWithAnimations(),
         ),
       );
     } on FirebaseAuthException catch (e) {

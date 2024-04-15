@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:wildsense/screens/dashboardpages/homescreen/homescreen.dart';
+import '../../../pages/customnavbar.dart';
 import '../../../widget/graph/line2chart.dart';
 import '../../../widget/indicator/carousel_indicator_species.dart';
 import 'package:lottie/lottie.dart'; // Import Lottie package
@@ -102,7 +103,7 @@ class _DetectorHomeState extends State<DetectorHome>
         // Navigate to home screen directly when back button is pressed
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => BottomNavWithAnimations()),
           (Route<dynamic> route) => false,
         );
         return false;
@@ -158,7 +159,7 @@ class _DetectorHomeState extends State<DetectorHome>
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeScreen())); // Pop until the root route
+                                                    BottomNavWithAnimations())); // Pop until the root route
                                       },
                                       icon: Icon(Icons.arrow_back),
                                       color: Colors.white,

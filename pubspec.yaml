@@ -66,6 +66,7 @@ flutter:
     - assets/countries.json
     - assets/images/
     - assets/rive/riveicons.riv
+    - assets/images/avatars/
 
   fonts:
     - family: SF Pro
