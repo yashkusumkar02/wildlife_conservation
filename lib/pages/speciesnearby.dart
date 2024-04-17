@@ -194,7 +194,7 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
                                 MaterialPageRoute(
                                   builder: (context) => SpeciesDetails(
                                     speciesName: species['name'],
-                                    imgUrl: species['img_url'], speciesDescription: speciesDescription, // Pass the selected country's ID here
+                                    imgUrl: species['img_url'], speciesDescription: speciesDescription, ranges: species['ranges'], // Pass the selected country's ID here
                                   ),
                                 ),
                               );

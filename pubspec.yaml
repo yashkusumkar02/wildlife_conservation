@@ -48,6 +48,7 @@ dependencies:
   random_string: ^2.3.1
   image_picker: ^0.8.9
   rive: ^0.13.1
+  slideable: ^0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,10 @@ flutter:
     - assets/images/
     - assets/rive/riveicons.riv
     - assets/images/avatars/
+    - assets/comment.json
+    - assets/rive/menu_button.riv
+    - assets/images/mahesh_babar.jpg
+    - assets/images/sejal_zarekar.jpg
 
   fonts:
     - family: SF Pro

@@ -38,7 +38,7 @@ class _HomeContentState extends State<HomeContent> {
                   CarouselWithIndicator(),
                   const SizedBox(height: 40),
                   const Text(
-                    'SPECIES NEARBY',
+                    'RARE SPECIES',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 15,

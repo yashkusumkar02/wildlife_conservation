@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wildsense/pages/customnavbar.dart';
+import 'package:wildsense/screens/dashboardpages/communitySection/community.dart';
 import 'package:wildsense/screens/dashboardpages/homescreen/homescreen.dart';
 import 'package:wildsense/screens/dashboardpages/profilescreen/profilescreen.dart';
 import 'package:wildsense/screens/registerscreen/phoneverification/phoneverification.dart';
@@ -149,6 +150,7 @@ class MyApp extends StatelessWidget {
         ),
         '/profilepage': (context) => const ProfileScreen(),
         '/home' : (context) => const HomeScreen(),
+        '/community': (context)=> const CommunityHomePage(posts: []),
         // Remove cameras parameter from here
       },
     );
