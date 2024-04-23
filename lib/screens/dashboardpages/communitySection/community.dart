@@ -4,10 +4,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-<<<<<<< HEAD
-import 'package:lottie/lottie.dart';
-=======
->>>>>>> origin/master
 
 class Post {
   final String id;
@@ -17,10 +13,6 @@ class Post {
   bool isLiked;
   int likes;
   List<String> comments;
-<<<<<<< HEAD
-  List<String> commentUsernames; // Add list for usernames
-=======
->>>>>>> origin/master
   int shares;
   final String userId;
 
@@ -33,10 +25,6 @@ class Post {
     this.isLiked = false,
     this.likes = 0,
     this.comments = const [],
-<<<<<<< HEAD
-    this.commentUsernames = const [], // Initialize comment usernames list
-=======
->>>>>>> origin/master
     this.shares = 0,
   });
 
@@ -81,21 +69,10 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
     try {
       QuerySnapshot usersSnapshot = await _firestore.collection('users').get();
       usersSnapshot.docs.forEach((doc) {
-<<<<<<< HEAD
-        setState(() {
-          _userNames[doc.id] = doc["name"];
-        });
-        // _userProfileImages[doc.id] = doc['profileImageUrl'];
-      });
-      setState(() {
-
-      }); // Trigger a rebuild after fetching user data
-=======
         _userNames[doc.id] = doc['name'];
         _userProfileImages[doc.id] = doc['profileImageUrl'];
       });
       setState(() {}); // Trigger a rebuild after fetching user data
->>>>>>> origin/master
     } catch (e) {
       print('Error fetching user data: $e');
     }
@@ -134,10 +111,6 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
               isLiked: (data['likedBy'] ?? []).contains(_currentUser.uid),
               likes: data['likes'] ?? 0,
               comments: List<String>.from(data['comments'] ?? []),
-<<<<<<< HEAD
-              commentUsernames: List<String>.from(data['commentUsernames'] ?? []), // Add usernames list
-=======
->>>>>>> origin/master
               shares: data['shares'] ?? 0,
             );
           }).toList();
@@ -332,10 +305,6 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
                         ),
                       ),
                       SizedBox(height: 10),
-<<<<<<< HEAD
-                      SizedBox(height: 10),
-=======
->>>>>>> origin/master
                       Row(
                         mainAxisAlignment:
                         MainAxisAlignment.spaceBetween,
@@ -363,11 +332,7 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
                           IconButton(
                             icon: Icon(Icons.comment),
                             onPressed: () {
-<<<<<<< HEAD
-                              _showCommentsBottomSheet(posts[index]);
-=======
                               // Implement comment functionality
->>>>>>> origin/master
                             },
                           ),
                           Text(
@@ -401,10 +366,6 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
     );
   }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
   Future<void> _openGallery(BuildContext context) async {
     final picker = ImagePicker();
     final pickedFile =
@@ -439,10 +400,6 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
         'imageUrl': imagePath,
         'likes': 0,
         'comments': [],
-<<<<<<< HEAD
-        'commentUsernames': [], // Add empty list for usernames
-=======
->>>>>>> origin/master
         'shares': 0,
       });
       setState(() {
@@ -473,113 +430,5 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
       print('Error updating like status: $e');
     }
   }
-<<<<<<< HEAD
-
-  Future<void> _addComment(String postId, String comment) async {
-    try {
-      final docRef = _firestore.collection('posts').doc(postId);
-      await docRef.update({
-        'comments': FieldValue.arrayUnion([comment]), // Add comment to post
-        'commentUsernames': FieldValue.arrayUnion(
-            [_currentUser.displayName ?? 'Anonymous']), // Add username to post
-      });
-    } catch (e) {
-      print('Error adding comment: $e');
-    }
-  }
-
-  // Add a method to show comments in bottom sheet
-  void _showCommentsBottomSheet(Post post) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-                Text(
-                  'Comments',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                if (post.comments.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Lottie.asset(
-                            'assets/comment.json',
-                            width: 200,
-                            height: 200,
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Be the first to comment!',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                else
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: post.comments.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            _userProfileImages[post.userId] ?? '',
-                          ),
-                        ),
-                        title: Text(
-                          post.commentUsernames[index],
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(post.comments[index]),
-                      );
-                    },
-                  ),
-                SizedBox(height: 10),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Add a comment',
-                  ),
-                  onFieldSubmitted: (value) {
-                    _addComment(post.id, value); // Call method to save comment
-                    Navigator.of(context).pop(); // Close bottom sheet after commenting
-                  },
-                ),
-                SizedBox(height: 10),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-=======
 }
 
->>>>>>> origin/master

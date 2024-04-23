@@ -58,11 +58,8 @@ class _BottomNavWithAnimationsState extends State<BottomNavWithAnimations> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
       resizeToAvoidBottomInset: false,
       extendBody: true,
-=======
->>>>>>> origin/master
       body: IndexedStack(
         index: selectedNavIndex,
         children: pages,
