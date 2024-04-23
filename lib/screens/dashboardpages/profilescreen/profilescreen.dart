@@ -21,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
               },
             ),
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: ProfileContent(), // Display profile content widget
           ),
