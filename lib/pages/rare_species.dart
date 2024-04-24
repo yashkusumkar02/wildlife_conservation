@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wildsense/pages/imagefetcher.dart';
 import 'package:wildsense/pages/taxonomy.dart';
 import 'package:lottie/lottie.dart'; // Import the lottie package
 

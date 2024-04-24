@@ -528,6 +528,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.2.1"
+  google_generative_ai:
+    dependency: "direct main"
+    description:
+      name: google_generative_ai
+      sha256: "55e1f13cd8c957be2e3644e0347471db1833c2ff3ff66ebef9fb71e9d9c9f24c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   graphs:
     dependency: transitive
     description:
@@ -1021,6 +1029,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.1"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: "4dd050773ef08829919879a8ac9ee3632a4fb798902aae4dd935c6d5504842d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.41+1"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "708425f534ef04253334763c8b75acc79eaec2d9b325bcd862575ea0a2207d87"
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.41"
   term_glyph:
     dependency: transitive
     description:

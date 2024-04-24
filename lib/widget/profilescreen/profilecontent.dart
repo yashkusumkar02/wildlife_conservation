@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wildsense/pages/about_us.dart';
+import 'package:wildsense/pages/faqs.dart';
+import 'package:wildsense/pages/termsandconditon.dart';
 import 'package:wildsense/screens/dashboardpages/profilescreen/userprofile/userprofile.dart';
 import 'package:wildsense/widget/profilescreen/profilescreencontent.dart';
 
@@ -57,19 +59,13 @@ class ProfileContent extends StatelessWidget {
               _buildAccountInfoContainer(
                 title: 'FAQs',
                 onPressed: () {
-                  // Handle FAQ button pressed
-                },
-              ),
-              _buildAccountInfoContainer(
-                title: 'Help',
-                onPressed: () {
-                  // Handle FAQ button pressed
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> FAQPage()));
                 },
               ),
               _buildAccountInfoContainer(
                 title: 'Terms & Condition',
                 onPressed: () {
-                  // Handle FAQ button pressed
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndConditionsPage()));
                 },
               ),
               const SizedBox(height: 20),

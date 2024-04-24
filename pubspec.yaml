@@ -49,6 +49,8 @@ dependencies:
   image_picker: ^0.8.9
   rive: ^0.13.1
   slideable: ^0.0.2
+  google_generative_ai: ^0.3.1
+  syncfusion_flutter_charts: ^25.1.41+1
 
 dev_dependencies:
   flutter_test:

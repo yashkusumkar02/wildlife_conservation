@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:wildsense/screens/dashboardpages/communitySection/community.dart';
+import 'package:wildsense/screens/dashboardpages/historyscreen/historyscreen.dart';
 import 'package:wildsense/screens/dashboardpages/homescreen/homescreen.dart';
 import 'package:wildsense/screens/dashboardpages/profilescreen/profilescreen.dart';
 
@@ -20,7 +21,7 @@ class _BottomNavWithAnimationsState extends State<BottomNavWithAnimations> {
   List<SMIBool> riveIconInputs = [];
   List<StateMachineController?> controllers=[];
   int selectedNavIndex = 0;
-  List<Widget> pages=[HomeScreen(), CommunityHomePage(posts: [],), Center(child: Text("Bell")), ProfileScreen()];
+  List<Widget> pages=[HomeScreen(), CommunityHomePage(posts: [],), UserHistory(), ProfileScreen()];
 
   void animateTheIcon(int index) {
     setState(() {

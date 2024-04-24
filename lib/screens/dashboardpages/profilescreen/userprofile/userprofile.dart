@@ -110,7 +110,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     future: userDataFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                       } else {
                         return Column(
                           children: [

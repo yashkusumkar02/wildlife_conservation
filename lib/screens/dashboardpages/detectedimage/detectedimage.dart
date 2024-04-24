@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:wildsense/pages/taxonomy.dart';
 import 'package:wildsense/screens/dashboardpages/homescreen/homescreen.dart';
 import '../../../pages/customnavbar.dart';
 import '../../../widget/graph/line2chart.dart';
@@ -251,6 +252,29 @@ class _DetectorHomeState extends State<DetectorHome>
                               ),
                             ),
                             SizedBox(height: 30),
+                            Image(
+                              image: AssetImage('assets/images/line.png'),
+                              width: 350,
+                            ),
+                            SizedBox(height: 20),
+                            FadeTransition(
+                              opacity: _fadeAnimation,
+                              child: Center(
+                                child: Text(
+                                  'TAXONOMY',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontFamily: 'SF Pro',
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            TaxonomyWidget(speciesName: widget.detectedLabel),
+                            SizedBox(height: 10,),
                             Image(
                               image: AssetImage('assets/images/line.png'),
                               width: 350,

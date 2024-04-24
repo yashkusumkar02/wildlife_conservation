@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
 import 'package:wildsense/screens/dashboardpages/detectedimage/detectedimage.dart';
@@ -20,6 +22,7 @@ class _DummyContainerState extends State<DummyContainer> {
   bool isCameraInitialized = false;
   Timer? _debounce;
   bool isModelBusy = false;
+  late User? _user;
 
   void runModelDebounced() {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
@@ -31,6 +34,11 @@ class _DummyContainerState extends State<DummyContainer> {
     super.initState();
     loadCamera();
     loadmodel();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      setState(() {
+        _user = user;
+      });
+    });
   }
 
   @override
@@ -108,12 +116,18 @@ class _DummyContainerState extends State<DummyContainer> {
     }
   }
 
-  void proceedToNextScreen() {
-    if (isLabelStable) {
+  void proceedToNextScreen() async {
+    if (_user != null && isLabelStable) {
       final String currentOutput = output;
-      // Stop camera stream and model inference
       cameraController?.stopImageStream();
       isModelBusy = false;
+
+      try {
+        // Store the detected species name in Firestore
+        await storeDetectedSpeciesData(_user!.uid, currentOutput);
+      } catch (e) {
+        print("Error storing detected species data: $e");
+      }
 
       showDialog(
         context: context,
@@ -149,6 +163,40 @@ class _DummyContainerState extends State<DummyContainer> {
       );
     }
   }
+
+  Future<void> storeDetectedSpeciesData(String userId, String currentOutput) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Create a reference to the detected species collection
+      CollectionReference detectedSpeciesCollectionRef = firestore.collection('detectedspecies');
+
+      // Create a reference to the document for storing all detected species count
+      DocumentReference allSpeciesCountDocRef = detectedSpeciesCollectionRef.doc(userId);
+
+      // Increment the count for the detected species
+      await allSpeciesCountDocRef.set({
+        'countIs': FieldValue.increment(1),
+      }, SetOptions(merge: true));
+
+      // Create a reference to the collection for storing individual detected species
+      CollectionReference speciesCollectionRef = allSpeciesCountDocRef.collection('species');
+
+      // Store the detected species label
+      await speciesCollectionRef.add({
+        'label': currentOutput,
+        'timestamp': FieldValue.serverTimestamp(), // Optionally, add a timestamp
+      });
+
+      print('Detected species data stored successfully.');
+    } catch (e) {
+      print("Error storing detected species data: $e");
+      throw e;
+    }
+  }
+
+
+
 
 
   @override
