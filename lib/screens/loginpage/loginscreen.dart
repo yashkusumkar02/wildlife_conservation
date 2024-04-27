@@ -28,23 +28,9 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     emailController = TextEditingController();
     passwordController = TextEditingController();
-    // Check if the user is already logged in
-    checkCurrentUser();
   }
 
   // Function to check if the user is already logged in
-  void checkCurrentUser() async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      // User is already logged in, navigate to profile screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ProfileScreen(),
-        ),
-      );
-    }
-  }
 
   @override
   void dispose() {

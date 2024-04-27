@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lottie/lottie.dart';
@@ -15,11 +16,13 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
   List<String> countries = ['Select country']; // Add default value here
   bool isLoading = false; // Track loading state
   bool isDropdownClicked = false;
+  late User _user;
 
   @override
   void initState() {
     super.initState();
     fetchCountries();
+    _user = FirebaseAuth.instance.currentUser!;
   }
 
   Future<void> fetchCountries() async {
@@ -62,7 +65,7 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
           ),
         ],
       ),
-    child: Padding(
+      child: Padding(
         padding: const EdgeInsets.all(6.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,17 +190,25 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
                         itemBuilder: (context, index) {
                           var species = speciesData[index];
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               String speciesDescription = species['desc']; // Fetch description here
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SpeciesDetails(
-                                    speciesName: species['name'],
-                                    imgUrl: species['img_url'], speciesDescription: speciesDescription, ranges: species['ranges'], // Pass the selected country's ID here
+                              String rareSpeciesName = species['name']; // Assuming the species name is stored in the 'name' field
+                              try {
+                                await storeRareSpeciesData(_user.uid, rareSpeciesName);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SpeciesDetails(
+                                      speciesName: species['name'],
+                                      imgUrl: species['img_url'],
+                                      speciesDescription: speciesDescription,
+                                      ranges: species['ranges'], // Pass the selected country's ID here
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              } catch (e) {
+                                print('Error storing rare species data: $e');
+                              }
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -255,6 +266,37 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
       } else {
         return name.substring(0, lastSpaceIndex) + '...';
       }
+    }
+  }
+
+  Future<void> storeRareSpeciesData(String userId, String rareSpeciesName) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Create a reference to the detected species collection
+      CollectionReference detectedSpeciesCollectionRef = firestore.collection('detectedspecies');
+
+      // Create a reference to the document for storing all rare species count
+      DocumentReference allRareSpeciesCountDocRef = detectedSpeciesCollectionRef.doc(userId);
+
+      // Increment the count for the rare species
+      await allRareSpeciesCountDocRef.set({
+        'rareCount': FieldValue.increment(1),
+      }, SetOptions(merge: true));
+
+      // Create a reference to the collection for storing individual rare species
+      CollectionReference rareSpeciesCollectionRef = allRareSpeciesCountDocRef.collection('rare_species');
+
+      // Store the rare species name
+      await rareSpeciesCollectionRef.add({
+        'name': rareSpeciesName,
+        'timestamp': FieldValue.serverTimestamp(), // Optionally, add a timestamp
+      });
+
+      print('Rare species data stored successfully.');
+    } catch (e) {
+      print("Error storing rare species data: $e");
+      throw e;
     }
   }
 }

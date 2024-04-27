@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
@@ -42,7 +43,8 @@ class ListViewBuilder extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10.0), // Add bottom padding to each article box
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    await storeDetectedUserArticleCount(); // Store current user's article count
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ArticleView(title: title,  imageUrl: imgUrl,)),
@@ -116,5 +118,37 @@ class ListViewBuilder extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> storeDetectedUserArticleCount() async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      FirebaseAuth auth = FirebaseAuth.instance;
+
+      // Get current user's ID
+      String? userId = auth.currentUser?.uid;
+      if (userId == null) {
+        print('User not logged in.');
+        return;
+      }
+
+      // Create a reference to the detected species collection
+      CollectionReference detectedSpeciesCollectionRef =
+      firestore.collection('detectedspecies');
+
+      // Create a reference to the document for storing the user's article count
+      DocumentReference userArticleCountDocRef =
+      detectedSpeciesCollectionRef.doc(userId);
+
+      // Increment the count for the user's articles
+      await userArticleCountDocRef.set({
+        'articleCount': FieldValue.increment(1),
+      }, SetOptions(merge: true));
+
+      print('User article count stored successfully.');
+    } catch (e) {
+      print("Error storing user article count: $e");
+      throw e;
+    }
   }
 }

@@ -22,7 +22,7 @@ List<CameraDescription>? cameras;
 Future<void> main() async {
   // Initialize Firebase
   WidgetsFlutterBinding.ensureInitialized();
-  cameras= await availableCameras();
+  cameras = await availableCameras();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -36,7 +36,7 @@ Future<void> main() async {
     if (userExists) {
       initialScreen = BottomNavWithAnimations(); // User is already logged in but not in the database
     } else {
-      initialScreen = BottomNavWithAnimations(); // User is already logged in and exists in the database
+      initialScreen = BottomNavWithAnimations(); // User is already logged in but not registered in the database
     }
   } else {
     // Check if it's the user's first time opening the app
@@ -56,6 +56,7 @@ Future<void> main() async {
 
   runApp(MyApp(initialScreen: initialScreen));
 }
+
 
 // Function to check if it's the user's first time opening the app
 Future<bool> isFirstTimeUserCheck() async {

@@ -67,7 +67,8 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
 
   Future<void> _fetchUserData() async {
     try {
-      QuerySnapshot usersSnapshot = await _firestore.collection('users').get();
+      QuerySnapshot usersSnapshot =
+      await _firestore.collection('users').get();
       usersSnapshot.docs.forEach((doc) {
         _userNames[doc.id] = doc['name'];
         _userProfileImages[doc.id] = doc['profileImageUrl'];
@@ -332,7 +333,7 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
                           IconButton(
                             icon: Icon(Icons.comment),
                             onPressed: () {
-                              // Implement comment functionality
+                              _showCommentDialog(context, posts[index].id);
                             },
                           ),
                           Text(
@@ -399,9 +400,13 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
         'userId': _currentUser.uid,
         'imageUrl': imagePath,
         'likes': 0,
-        'comments': [],
+        'comments': [], // Initialize comments as an empty list
         'shares': 0,
       });
+
+      // Store and increment the user's post count
+      await storeDetectedUserPostsCount(_currentUser.uid);
+
       setState(() {
         _titleController.clear();
         _descriptionController.clear();
@@ -430,5 +435,85 @@ class _CommunityHomePageState extends State<CommunityHomePage> {
       print('Error updating like status: $e');
     }
   }
-}
 
+  Future<void> _showCommentDialog(BuildContext context, String postId) async {
+    String comment = ''; // Initialize an empty comment
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Add a Comment'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Enter your comment',
+                  ),
+                  onChanged: (value) {
+                    comment = value; // Update the comment value as the user types
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Add the comment to Firestore
+                await _addCommentToPost(postId, comment);
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _addCommentToPost(String postId, String comment) async {
+    try {
+      final postRef = _firestore.collection('posts').doc(postId);
+      await postRef.update({
+        'comments': FieldValue.arrayUnion([comment]), // Add the comment to the post's comments array
+      });
+    } catch (e) {
+      print('Error adding comment: $e');
+    }
+  }
+
+
+
+
+  Future<void> storeDetectedUserPostsCount(String userId) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Create a reference to the detected species collection
+      CollectionReference detectedSpeciesCollectionRef =
+      firestore.collection('detectedspecies');
+
+      // Create a reference to the document for storing the user's post count
+      DocumentReference userPostCountDocRef =
+      detectedSpeciesCollectionRef.doc(userId);
+
+      // Increment the count for the user's posts
+      await userPostCountDocRef.set({
+        'postCount': FieldValue.increment(1),
+      }, SetOptions(merge: true));
+
+      print('User post count stored successfully.');
+    } catch (e) {
+      print("Error storing user post count: $e");
+      throw e;
+    }
+  }
+}

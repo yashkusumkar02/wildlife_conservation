@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wildsense/screens/loginpage/loginscreen.dart';
 import '../../../common/fade_animation.dart';
 import '../../../widget/custome_widget.dart';
 import '../sucessscreen/sucessscreen.dart';
@@ -79,7 +80,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
 
         await _auth.signInWithCredential(credential);
 
-        Get.to(const SuccessScreen());
+        Get.off(() => const SuccessScreen()); // Changed here
       } catch (e) {
         showDialog(
           context: context,
@@ -99,7 +100,6 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       }
     }
   }
-
 
 
   @override
