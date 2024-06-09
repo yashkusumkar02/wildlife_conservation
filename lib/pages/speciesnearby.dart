@@ -27,7 +27,7 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
 
   Future<void> fetchCountries() async {
     QuerySnapshot countriesSnapshot =
-    await FirebaseFirestore.instance.collection('countries').get();
+        await FirebaseFirestore.instance.collection('countries').get();
     setState(() {
       countries.addAll(countriesSnapshot.docs.map((doc) => doc.id).toList());
       if (countries.isNotEmpty) {
@@ -38,14 +38,8 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       width: screenWidth * 0.99,
       height: screenHeight * 0.25,
@@ -61,7 +55,8 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3), // Adjust the offset to make the shadow appear on the outer side
+            offset: Offset(0,
+                3), // Adjust the offset to make the shadow appear on the outer side
           ),
         ],
       ),
@@ -91,12 +86,12 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
                       isDropdownClicked || selectedCountry != null
                           ? SizedBox()
                           : Center(
-                        child: Lottie.asset(
-                          'assets/searching.json',
-                          width: 100,
-                          height: 100,
-                        ),
-                      ),
+                              child: Lottie.asset(
+                                'assets/searching.json',
+                                width: 100,
+                                height: 100,
+                              ),
+                            ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonHideUnderline(
@@ -151,102 +146,122 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
                 children: [
                   selectedCountry != null && selectedCountry != 'Select country'
                       ? FutureBuilder<DocumentSnapshot>(
-                    future: selectedCountry != null
-                        ? FirebaseFirestore.instance
-                        .collection('countries')
-                        .doc(selectedCountry)
-                        .get()
-                        : Future.value(null),
-                    builder: (context, snapshot) {
-                      print('Selected country: $selectedCountry');
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return isLoading
-                            ? Center(
-                          child: Lottie.asset(
-                            'assets/searching.json',
-                            width: 900,
-                            height: 900,
-                          ),
-                        )
-                            : SizedBox();
-                      }
-                      if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      }
-                      if (!snapshot.hasData || snapshot.data!.data() == null) {
-                        return Center(child: Text('No species data found for this country'));
-                      }
+                          future: selectedCountry != null
+                              ? FirebaseFirestore.instance
+                                  .collection('countries')
+                                  .doc(selectedCountry)
+                                  .get()
+                              : Future.value(null),
+                          builder: (context, snapshot) {
+                            print('Selected country: $selectedCountry');
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return isLoading
+                                  ? Center(
+                                      child: Lottie.asset(
+                                        'assets/searching.json',
+                                        width: 900,
+                                        height: 900,
+                                      ),
+                                    )
+                                  : SizedBox();
+                            }
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('Error: ${snapshot.error}'));
+                            }
+                            if (!snapshot.hasData ||
+                                snapshot.data!.data() == null) {
+                              return Center(
+                                  child: Text(
+                                      'No species data found for this country'));
+                            }
 
-                      var speciesData;
-                      if (snapshot.hasData && snapshot.data!.data() != null) {
-                        speciesData = (snapshot.data!.data() as Map<String, dynamic>)['species'];
-                      }
-                      if (speciesData == null) {
-                        return Center(child: Text('No species data found for this country'));
-                      }
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: speciesData.length,
-                        itemBuilder: (context, index) {
-                          var species = speciesData[index];
-                          return GestureDetector(
-                            onTap: () async {
-                              String speciesDescription = species['desc']; // Fetch description here
-                              String rareSpeciesName = species['name']; // Assuming the species name is stored in the 'name' field
-                              try {
-                                await storeRareSpeciesData(_user.uid, rareSpeciesName);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SpeciesDetails(
-                                      speciesName: species['name'],
-                                      imgUrl: species['img_url'],
-                                      speciesDescription: speciesDescription,
-                                      ranges: species['ranges'], // Pass the selected country's ID here
+                            var speciesData;
+                            if (snapshot.hasData &&
+                                snapshot.data!.data() != null) {
+                              speciesData = (snapshot.data!.data()
+                                  as Map<String, dynamic>)['species'];
+                            }
+                            if (speciesData == null) {
+                              return Center(
+                                  child: Text(
+                                      'No species data found for this country'));
+                            }
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: speciesData.length,
+                              itemBuilder: (context, index) {
+                                var species = speciesData[index];
+                                return GestureDetector(
+                                  onTap: () async {
+                                    String speciesDescription = species[
+                                        'desc']; // Fetch description here
+                                    String rareSpeciesName = species[
+                                        'name']; // Assuming the species name is stored in the 'name' field
+                                    try {
+                                      await storeRareSpeciesData(
+                                          _user.uid, rareSpeciesName);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SpeciesDetails(
+                                            speciesName: species['name'],
+                                            imgUrl: species['img_url'],
+                                            speciesDescription:
+                                                speciesDescription,
+                                            ranges: species[
+                                                'ranges'], // Pass the selected country's ID here
+                                          ),
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      print(
+                                          'Error storing rare species data: $e');
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Column(
+                                      children: [
+                                        ClipOval(
+                                          child: Image.network(
+                                            species['img_url'],
+                                            width: 80,
+                                            height: 80,
+                                            fit: BoxFit.fill,
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    Icon(Icons.error),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          _truncateSpeciesName(species['name']),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 );
-                              } catch (e) {
-                                print('Error storing rare species data: $e');
-                              }
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: Column(
-                                children: [
-                                  ClipOval(
-                                    child: Image.network(
-                                      species['img_url'],
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.fill,
-                                      errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    _truncateSpeciesName(species['name']),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  )
+                              },
+                            );
+                          },
+                        )
                       : Center(
-                    child: Lottie.asset(
-                      'assets/countries.json',
-                      width: 900,
-                      height: 700,
-                    ),
-                  ),
+                          child: Lottie.asset(
+                            'assets/countries.json',
+                            width: 900,
+                            height: 700,
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -269,15 +284,18 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
     }
   }
 
-  Future<void> storeRareSpeciesData(String userId, String rareSpeciesName) async {
+  Future<void> storeRareSpeciesData(
+      String userId, String rareSpeciesName) async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       // Create a reference to the detected species collection
-      CollectionReference detectedSpeciesCollectionRef = firestore.collection('detectedspecies');
+      CollectionReference detectedSpeciesCollectionRef =
+          firestore.collection('detectedspecies');
 
       // Create a reference to the document for storing all rare species count
-      DocumentReference allRareSpeciesCountDocRef = detectedSpeciesCollectionRef.doc(userId);
+      DocumentReference allRareSpeciesCountDocRef =
+          detectedSpeciesCollectionRef.doc(userId);
 
       // Increment the count for the rare species
       await allRareSpeciesCountDocRef.set({
@@ -285,12 +303,14 @@ class _SpeciesNearbyState extends State<SpeciesNearby> {
       }, SetOptions(merge: true));
 
       // Create a reference to the collection for storing individual rare species
-      CollectionReference rareSpeciesCollectionRef = allRareSpeciesCountDocRef.collection('rare_species');
+      CollectionReference rareSpeciesCollectionRef =
+          allRareSpeciesCountDocRef.collection('rare_species');
 
       // Store the rare species name
       await rareSpeciesCollectionRef.add({
         'name': rareSpeciesName,
-        'timestamp': FieldValue.serverTimestamp(), // Optionally, add a timestamp
+        'timestamp': FieldValue.serverTimestamp(),
+        // Optionally, add a timestamp
       });
 
       print('Rare species data stored successfully.');

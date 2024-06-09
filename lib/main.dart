@@ -34,22 +34,22 @@ Future<void> main() async {
     // Check if the user exists in the Firestore database
     bool userExists = await isUserExistsInDatabase(user.uid);
     if (userExists) {
-      initialScreen = BottomNavWithAnimations(); // User is already logged in but not in the database
+      initialScreen = const BottomNavWithAnimations(); // User is already logged in but not in the database
     } else {
-      initialScreen = BottomNavWithAnimations(); // User is already logged in but not registered in the database
+      initialScreen = const BottomNavWithAnimations(); // User is already logged in but not registered in the database
     }
   } else {
     // Check if it's the user's first time opening the app
     bool isFirstTimeUser = await isFirstTimeUserCheck();
     if (isFirstTimeUser) {
-      initialScreen = SplashScreen(); // Show splash screen for first-time users
+      initialScreen = const SplashScreen(); // Show splash screen for first-time users
     } else {
       // Check if the user is registered in the database
       bool isRegisteredUser = await isRegisteredUserInDatabase();
       if (isRegisteredUser) {
-        initialScreen = LoginPage(); // User is not logged in but registered in the database
+        initialScreen = const LoginPage(); // User is not logged in but registered in the database
       } else {
-        initialScreen = LoginPage(); // User is not logged in and not registered, show login page
+        initialScreen = const LoginPage(); // User is not logged in and not registered, show login page
       }
     }
   }
