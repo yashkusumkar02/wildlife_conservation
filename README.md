@@ -18,7 +18,7 @@ WildSense is a mobile app built using Flutter and powered by machine learning, a
 ## Installation and Setup:
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/wildsense.git
+   git clone https://github.com/yashkusumkar02/wildlife_conservation
 
 2. Install Dependencies:
    flutter pub get
